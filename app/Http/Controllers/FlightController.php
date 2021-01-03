@@ -28,19 +28,20 @@ class FlightController extends Controller
                 ]
             ], 422);
         }
-        $airport_from = Airport::where('iata', $request->from)->first();
-        $airport_to = Airport::where('iata', $request->to)->first();
+        $airport_from = Airport::where('iata', $request->from)->first(); //Получаем объект - аэропорт вылета по известному iata
+        $airport_to = Airport::where('iata', $request->to)->first(); //Получаем аэропорт - фэропорт прилета по известному iata
 
-        $flight_to = Flight::where([
+        $flight_to = Flight::where([   //Получаем массив рейсов туда
             ['from_id', $airport_from->id],
             ['to_id', $airport_to->id]
         ])->get();
 
-        $flight_back = Flight::where([
+        $flight_back = Flight::where([  //Получаем массив рейсов обратно
             ['from_id', $airport_to->id],
             ['to_id', $airport_from->id]
         ])->get();
 
+        //Формируем новый массив для заполнения flight_to
         $data_flight_to = [];
         $k = 0;
         foreach ($flight_to as $val) {
@@ -66,7 +67,7 @@ class FlightController extends Controller
             ];
             $k++;
         }
-
+        //Формируем новый массив для заполнения flight_back
         $data_flight_back = [];
         $k = 0;
         foreach ($flight_back as $val) {
