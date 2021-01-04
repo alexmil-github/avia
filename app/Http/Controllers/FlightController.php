@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Airport;
+use App\Models\Booking;
 use App\Models\Flight;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class FlightController extends Controller
 {
+
     public function search(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -31,12 +33,12 @@ class FlightController extends Controller
         $airport_from = Airport::where('iata', $request->from)->first(); //Получаем объект - аэропорт вылета по известному iata
         $airport_to = Airport::where('iata', $request->to)->first(); //Получаем аэропорт - фэропорт прилета по известному iata
 
-        $flight_to = Flight::where([   //Получаем массив рейсов туда
+        $flight_to = Flight::where([           //Получаем массив рейсов туда
             ['from_id', $airport_from->id],
             ['to_id', $airport_to->id]
         ])->get();
 
-        $flight_back = Flight::where([  //Получаем массив рейсов обратно
+        $flight_back = Flight::where([          //Получаем массив рейсов обратно
             ['from_id', $airport_to->id],
             ['to_id', $airport_from->id]
         ])->get();
@@ -63,7 +65,7 @@ class FlightController extends Controller
                     'time' => Carbon::parse($val->time_to)->format('H:i'),
                 ],
                 'cost' => $val['cost'],
-                'availability' => '103',
+                'availability' => Booking::FreePlaces($val['id'], $request->date1),
             ];
             $k++;
         }
@@ -89,7 +91,7 @@ class FlightController extends Controller
                     'time' => Carbon::parse($val->time_from)->format('H:i'),
                 ],
                 'cost' => $val['cost'],
-                'availability' => '103',
+                'availability' => Booking::FreePlaces($val['id'], $request->date2),
             ];
             $k++;
         }
@@ -102,5 +104,7 @@ class FlightController extends Controller
         ], 200);
 
     }
+
 }
+
 

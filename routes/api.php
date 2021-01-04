@@ -23,3 +23,4 @@ Route::post('/login', 'App\Http\Controllers\AuthController@login');
 Route::get('/airport', 'App\Http\Controllers\AirportController@search');
 Route::get('/flight', 'App\Http\Controllers\FlightController@search');
 Route::post('/booking', 'App\Http\Controllers\BookingController@booking');
+Route::get('/booking/{booking:code}', 'App\Http\Controllers\BookingController@info');

@@ -10,7 +10,7 @@ class Passenger extends Model
     use HasFactory;
 
     protected $fillable = [
-        'booking_id',
+        'id',
         'first_name',
         'last_name',
         'birth_date',
@@ -25,7 +25,7 @@ class Passenger extends Model
      * @var array
      */
     protected $hidden = [
-        'id',
+        'booking_id',
         'updated_at',
         'created_at',
     ];
