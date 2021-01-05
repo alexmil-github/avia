@@ -24,3 +24,5 @@ Route::get('/airport', 'App\Http\Controllers\AirportController@search');
 Route::get('/flight', 'App\Http\Controllers\FlightController@search');
 Route::post('/booking', 'App\Http\Controllers\BookingController@booking');
 Route::get('/booking/{booking:code}', 'App\Http\Controllers\BookingController@info');
+Route::get('/user', 'App\Http\Controllers\UserController@info')->middleware('auth:api');
+Route::get('/user/booking', 'App\Http\Controllers\UserController@bookings')->middleware('auth:api');
